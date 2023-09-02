@@ -8,7 +8,7 @@ namespace BuzzLink.Services
         private const string Alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         private readonly ApplicationDbContext _dbContext;
 
-        private readonly Random _random = new(); 
+        private readonly Random _random = new();
 
         public UrlShorteningService(ApplicationDbContext dbContext)
         {
@@ -19,14 +19,12 @@ namespace BuzzLink.Services
         {
             var codeChars = new char[NumberOfCharsInShortLink];
 
-            while(true)
+            while (true)
             {
                 for (int i = 0; i < NumberOfCharsInShortLink; i++)
                 {
                     int randomIndex = _random.Next(Alphabet.Length - 1);
                     codeChars[i] = Alphabet[randomIndex];
-
-
                 }
 
                 var code = new string(codeChars);
@@ -34,11 +32,8 @@ namespace BuzzLink.Services
                 if (!await _dbContext.ShortenedUrls.AnyAsync(s => s.Code == code))
                 {
                     return code;
-
                 }
             }
-            
         }
-
     }
 }
